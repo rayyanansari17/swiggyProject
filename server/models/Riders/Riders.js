@@ -1,122 +1,85 @@
 import mongoose from "mongoose";
 
-const riderSchema = new mongoose.Schema(
-  {
-    _id: {
-      type: String,
+const riderSchema = new mongoose.Schema({
+    riderName:{
+        type:String,
+        required:true,
+        trim:true
     },
-    name: {
-      type: String,
-      required: true,
-      trim: true,
+    email:{
+        type:String,
+        required:true,
+        unique:true,
+        lowercase:true,
+        trim:true,
     },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
+    phone:{
+        type:String,
+        require:true,
+        unique:true,
+        trim:true,
     },
-    phone: {
-      type: String,
-      required: true,
-      trim: true,
+    password:{
+        type:String,
+        required:true,
+        trim:true
     },
-    password: {
-      type: String,
-      required: true,
-      trim: true,
+    vehicle:{
+        type:{
+        type:String,
+        enum:["bike","scooty"]
+        },
+        liscence:{
+            type:String,
+            trim:true,
+            uppercase:true,
+            unique:true
+        }
     },
-    orderHistory: {
-      type: Array,
-      default: null,
-      orderDetails: {
-        type: Object,
-        customer_name: {
-          type: String,
-          required: true,
-        },
-        customer_phone: {
-          type: String,
-          required: true,
-        },
-        restaurant_name: {
-          type: String,
-          required: true,
-        },
-        restaurant_phone: {
-          type: String,
-          required: true,
-        },
-        item_name: {
-          type: String,
-          required: true,
-        },
-        item_quantity: {
-          type: Number,
-          required: true,
-        },
-      },
+    gender:{
+        type:String,
+        enum:["male","Male"],
+        require:true,
+        trim:true
     },
-    currentOrder: {
-      type: Array,
-      default: null,
-      order: {
-        type: Object,
-        customer_name: {
-          type: String,
-          required: true,
-        },
-        customer_phone: {
-          type: String,
-          required: true,
-        },
-        restaurant_name: {
-          type: String,
-          required: true,
-        },
-        restaurant_phone: {
-          type: String,
-          required: true,
-        },
-        item_name: {
-          type: String,
-          required: true,
-        },
-        item_quantity: {
-          type: Number,
-          required: true,
-        },
-      },
+    age:{
+        type:Number,
+        required:true,
+        minlength:[18,"Atleat 12"],
+        maxlength:[40,"Max age 70"]
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    isActive:{
+        type:Boolean,
+        default:true
     },
-    isVerified: {
-      email: {
-        type: Boolean,
-        default: false,
-      },
-      phone: {
-        type: Boolean,
-        default: false,
-      },
+    isOnline:{
+        type:Boolean,
+        default:false
     },
-    verificationToken: {
-      email: {
-        type: String,
-        default: null,
-      },
-      phone: {
-        type: String,
-        default: null,
-      },
+    isVerified:{
+        email:{
+            type:Boolean,
+            default:false
+        },
+        phone:{
+            type:Boolean,
+            default:false
+        }
     },
-  },
-  {
-    timestamps: true,
-  }
-);
+    verifyToken:{
+        emailToken:{
+            type:String,
+            default:null
+        },
+        phoneToken:{
+            type:String,
+            default:null
+        }
+    }
+},{
+    timestamps:true,
+    strict:false
+})
 
-const riderModel = mongoose.model(riderSchema);
-
+const riderModel = mongoose.model("riders",riderSchema)
 export default riderModel;

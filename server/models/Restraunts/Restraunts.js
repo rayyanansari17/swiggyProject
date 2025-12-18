@@ -1,26 +1,8 @@
 import mongoose from "mongoose";
 
-const restrauntSchema = new mongoose.Schema(
+const restSchema = new mongoose.Schema(
   {
-    _id: {
-      type: String,
-    },
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    password: {
+    restaurantName: {
       type: String,
       required: true,
       trim: true,
@@ -28,70 +10,25 @@ const restrauntSchema = new mongoose.Schema(
     location: {
       type: String,
       required: true,
+      trim: true,
     },
-    menu: {
-      type: Array,
-      default: null,
-      item: {
-        name: {
-          type: String,
-          required: true,
-        },
-        price: {
-          type: String,
-          required: true,
-        },
-      },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
     },
-    orderHistory: {
-      type: Array,
-      default: null,
-      orderDetails: {
-        type: Object,
-        customer_name: {
-          type: String,
-          required: true,
-        },
-        customer_phone: {
-          type: String,
-          required: true,
-        },
-        item_name: {
-          type: String,
-          required: true,
-        },
-        item_quantity: {
-          type: Number,
-          required: true,
-        },
-      },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
     },
-
-    currentOrder: {
-      type: Array,
-      default: null,
-      order: {
-        customer_name: {
-          type: String,
-          required: true,
-        },
-        customer_phone: {
-          type: String,
-          required: true,
-        },
-        item_name: {
-          type: String,
-          required: true,
-        },
-        item_quantity: {
-          type: Number,
-          required: true,
-        },
-      },
-    },
-    isActive: {
-      type: Boolean,
-      default: true,
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
     },
     isVerified: {
       email: {
@@ -103,22 +40,30 @@ const restrauntSchema = new mongoose.Schema(
         default: false,
       },
     },
-    verificationToken: {
-      email: {
+    verifyToken: {
+      emailToken: {
         type: String,
         default: null,
       },
-      phone: {
+      phoneToken: {
         type: String,
         default: null,
       },
     },
+    isOpen: {
+      type: Boolean,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 
-const restaurantModel = mongoose.model(restrauntSchema);
-
+const restaurantModel = mongoose.model("restaurants", restSchema);
 export default restaurantModel;

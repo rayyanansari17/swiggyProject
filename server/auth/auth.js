@@ -1,19 +1,16 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-async function auth(req,res,next){
-    try {
-        let token = req.headers.authorization;
-        if(!token){
-            return res.status(401).json({msg:"unauthorized no token"})
-        }
-        token = token.split(" ")[1]
-        let decoded = jwt.verify(token, "rayyan")
-        req.user = decoded
-        next()
-    } catch (error) {
-        console.log(error);
-        res.status(500).json(error)
-    }
+function authMiddleware(req, res, next) {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(400).json({ msg: "Access denied" });
+    const decode = jwt.verify(token, process.env.SEC_KEY);
+    req.user = decode;
+    next();
+  } catch (error) {
+    console.log(error);
+  }
 }
-
-export default auth;
+export default authMiddleware;

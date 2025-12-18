@@ -1,31 +1,29 @@
-import mailer from "nodemailer"
-import dotenv from "dotenv"
-dotenv.config()
+import mailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
-async function sendMail(to, body, text){
+const user = process.env.EMAIL
+const pass = process.env.PASS
+
+async function mail(to,subject,text){
     try {
-        let user = process.env.EMAIL
-        let pass = process.env.PASS
-
-        let send = mailer.createTransport({
+        const userDetails = mailer.createTransport({
             service:"gmail",
             auth:{
                 user,
-                pass,
+                pass
             }
         })
-
-        let sender = await send.sendMail({
+        const sender = await userDetails.sendMail({
             from:user,
-            to,
-            body,
-            text,
+            to:[to],
+            subject,
+            text
         })
-
-        console.log("the mail has been sent to", to, sender.response);
+    console.log("Email sent successfully",sender.messageId);
     } catch (error) {
         console.log(error);
     }
 }
 
-export default sendMail
+export default mail
