@@ -28,7 +28,8 @@ const customerSchema = new mongoose.Schema({
         type:String,
         enum:["male","female","others"],
         require:true,
-        trim:true
+        trim:true,
+        required:true,
     },
     age:{
         type:Number,
